@@ -3,6 +3,10 @@ import React, { Component } from 'react';
 class Book extends Component {
   render() {
     const { bookData, changeCategory } = this.props;
+    
+    if(!bookData.shelf) {
+      bookData.shelf = "none";
+    }
 
     return(
       <li>
@@ -17,10 +21,10 @@ class Book extends Component {
             <div className="book-shelf-changer">
               <select onChange={ (event) => changeCategory(event, bookData) } value={bookData.shelf}>
                 <option value="move" disabled>Move to...</option>
-                <option value="currentlyReading" className="category-option" disabled={bookData.shelf === 'currentlyReading'} onClick={ () => changeCategory(bookData, 'currentlyReading') }>Currently Reading</option>
-                <option value="wantToRead" className="category-option" disabled={bookData.shelf === 'wantToRead'} onClick={ () => changeCategory(bookData, 'wantToRead') }>Want to Read</option>
-                <option value="read" className="category-option" disabled={bookData.shelf === 'read'} onClick={ () => changeCategory(bookData, 'read') }>Read</option>
-                <option value="none" className="category-option" disabled={bookData.shelf == null}>None</option>
+                <option value="currentlyReading" className="category-option" disabled={bookData.shelf === 'currentlyReading'}>Currently Reading</option>
+                <option value="wantToRead" className="category-option" disabled={bookData.shelf === 'wantToRead'}>Want to Read</option>
+                <option value="read" className="category-option" disabled={bookData.shelf === 'read'}>Read</option>
+                <option value="none" className="category-option" disabled={bookData.shelf === 'none'}>None</option>
               </select>
             </div>
           </div>

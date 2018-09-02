@@ -34,7 +34,6 @@ class BooksApp extends Component {
       }
     ];
   }
-
   componentDidMount() {
     this.setState({dataLoading: true});
     BooksAPI.getAll().then( books => {
@@ -48,41 +47,46 @@ class BooksApp extends Component {
   changeCategory = (event, bookData) => {
     const index = this.state.bookList.findIndex(book => book.id === bookData.id);
     const newBookList = this.state.bookList.slice()
-    newBookList[index].shelf = event.target.value
 
-    BooksAPI.update(bookData, event.target.value).then( books => {
-      this.setState({
-        bookList: newBookList
-      })
-    });
+    if(index>0) {
+      newBookList[index].shelf = event.target.value
+      BooksAPI.update(bookData, event.target.value).then( books => {
+        this.setState({
+          bookList: newBookList
+        })
+      });
+    } else {
+      newBookList.push(bookData)
+      BooksAPI.update(bookData, event.target.value).then( books => {
+        this.setState({
+          bookList: newBookList
+        })
+        console.log("From search")
+      });
+    }
   }
 
   render() {
 
     if(this.state.dataLoading) {
       return(
-        <div className="list-books">
-          <div className="list-books-title">
-            <h1>Loading...</h1>
-          </div>
-          <div className="spinner">
-            <div className="rect1"></div>
-            <div className="rect2"></div>
-            <div className="rect3"></div>
-            <div className="rect4"></div>
-            <div className="rect5"></div>
-          </div>
+        <div className="spinner">
+          <div className="rect1"></div>
+          <div className="rect2"></div>
+          <div className="rect3"></div>
+          <div className="rect4"></div>
+          <div className="rect5"></div>
         </div>
       )
     }
     else {
       return (
         <div>
-          <Route exact path="/" render={() => (
+          <Route exact path="/" render={({ history }) => (
             <BookCollection bookShelves={this.bookShelves} bookList={this.state.bookList} dataLoading={this.state.dataLoading} changeCategory={this.changeCategory} />
           )} />
-          <Route path="/search" render={() => (
-            <BookSearch bookList={this.state.bookList} changeCategory={this.changeCategory} />
+          <Route path="/search" render={({ history }) => (
+            <BookSearch changeCategory={this.changeCategory} />
           )} />
         </div>
       )

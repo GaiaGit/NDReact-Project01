@@ -7,7 +7,7 @@ class Dashboard extends Component {
 
   render() {
     const { bookList, bookShelves, dataLoading, changeCategory } = this.props;
-    
+
     return(
       <div className="list-books">
         <div className="list-books-title">
