@@ -247,3 +247,32 @@ body, .app {
   text-align: center;
   font-size: 0.8em;
 }
+
+/* custom styles */
+
+.author-list {
+  padding: 0;
+  margin: 0;
+}
+
+.author-list li {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.author-list li:not(:last-child)::after {
+  content: ',';
+}
+
+.category-option:disabled,.category-option:checked{
+  background-color: rgba(6,125,50,1);
+  color: #fff;
+  font-weight: bold;
+}
+
+.shelf-icon {
+  color: rgba(163,165,179,1);
+  font-size: 1.4rem;
+  margin-right: 10px;
+}

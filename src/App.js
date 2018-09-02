@@ -19,27 +19,42 @@ class BooksApp extends Component {
       {
         id: 0,
         text: "Currently Reading",
-        category: "currentlyReading"
+        category: "currentlyReading",
+        icon: "fa-book-open"
       },{
         id: 1,
         text: "Want to Read",
-        category: "wantToRead"
+        category: "wantToRead",
+        icon: "fa-bookmark"
       },{
         id: 2,
         text: "Read",
-        category: "read"
+        category: "read",
+        icon: "fa-book"
       }
     ];
   }
 
   componentDidMount() {
     this.setState({dataLoading: true});
-    BooksAPI.getAll().then( books =>
+    BooksAPI.getAll().then( books => {
       this.setState({
-        books,
+        bookList: books,
         dataLoading: false
       })
-    );
+    });
+  }
+
+  changeCategory = (event, bookData) => {
+    const index = this.state.bookList.findIndex(book => book.id === bookData.id);
+    const newBookList = this.state.bookList.slice()
+    newBookList[index].shelf = event.target.value
+
+    BooksAPI.update(bookData, event.target.value).then( books => {
+      this.setState({
+        bookList: newBookList
+      })
+    });
   }
 
   render() {
@@ -64,10 +79,10 @@ class BooksApp extends Component {
       return (
         <div>
           <Route exact path="/" render={() => (
-            <BookCollection bookShelves={this.bookShelves} bookList={this.state.bookList} dataLoading={this.state.dataLoading} />
+            <BookCollection bookShelves={this.bookShelves} bookList={this.state.bookList} dataLoading={this.state.dataLoading} changeCategory={this.changeCategory} />
           )} />
           <Route path="/search" render={() => (
-            <BookSearch bookList={this.state.bookList} />
+            <BookSearch bookList={this.state.bookList} changeCategory={this.changeCategory} />
           )} />
         </div>
       )

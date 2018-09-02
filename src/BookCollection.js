@@ -6,8 +6,8 @@ import BookShelf from './BookShelf'
 class Dashboard extends Component {
 
   render() {
-    const { bookList, bookShelves, dataLoading } = this.props;
-    console.log("???!!!"+bookList)
+    const { bookList, bookShelves, dataLoading, changeCategory } = this.props;
+    
     return(
       <div className="list-books">
         <div className="list-books-title">
@@ -17,9 +17,9 @@ class Dashboard extends Component {
           {
             bookShelves.map( shelf => {
               const shelfBooks = bookList.filter( book => {
-                return book.shelf === shelf.category
+                return (book.shelf === shelf.category) ? book : null;
               } );
-              return (<BookShelf shelf={shelf} key={shelf.id} shelfBooks={shelfBooks} dataLoading={dataLoading} />)
+              return (<BookShelf key={shelf.id} shelf={shelf} shelfBooks={shelfBooks} dataLoading={dataLoading} changeCategory={changeCategory} />)
             } )
           }
         </div>
