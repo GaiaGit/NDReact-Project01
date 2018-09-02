@@ -12,6 +12,12 @@ class Book extends Component {
     }
   }
 
+  /**
+  * @description Change Shelf state of a book
+  * @param {event} event - Stores new shelf for the book
+  * @param {object} bookData - Current book data
+  * @return Callback changeCategory function
+  */
   onChangeShelf = function(event, bookData) {
     this.setState({
       bookShelf: event.target.value
