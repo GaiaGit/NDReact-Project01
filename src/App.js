@@ -7,13 +7,13 @@ import BookSearch from './BookSearch'
 
 class BooksApp extends Component {
 
+  state = {
+    dataLoading: false,
+    bookList: []
+  };
+
   constructor(props){
     super(props);
-
-    this.state = {
-      dataLoading: false,
-      bookList: []
-    };
 
     this.bookShelves = [
       {
@@ -34,7 +34,16 @@ class BooksApp extends Component {
       }
     ];
   }
+
   componentDidMount() {
+    this.getMyReads();
+  }
+
+  /**
+  * @description API Connection to get the list of books that have a shelf assigned
+  * @return BookList state updated
+  */
+  getMyReads() {
     this.setState({dataLoading: true});
     BooksAPI.getAll().then( books => {
       this.setState({
@@ -44,30 +53,37 @@ class BooksApp extends Component {
     });
   }
 
-  changeCategory = (event, bookData) => {
+  /**
+  * @description Update Book List if a books's shelf is changed
+  * @param {string} bookShelf - New shelf for the selected book
+  * @param {object} bookData - Selected book
+  * @return BookList state updated
+  */
+  changeCategory = (bookShelf, bookData) => {
     const index = this.state.bookList.findIndex(book => book.id === bookData.id);
     const newBookList = this.state.bookList.slice()
 
-    if(index>0) {
-      newBookList[index].shelf = event.target.value
-      BooksAPI.update(bookData, event.target.value).then( books => {
+    if(index > 0) {
+      newBookList[index].shelf = bookShelf;
+      BooksAPI.update(bookData, bookShelf).then( books => {
         this.setState({
           bookList: newBookList
         })
       });
     } else {
-      newBookList.push(bookData)
-      BooksAPI.update(bookData, event.target.value).then( books => {
+      bookData.shelf = bookShelf;
+      newBookList.push(bookData);
+      BooksAPI.update(bookData, bookShelf).then( books => {
         this.setState({
           bookList: newBookList
         })
-        console.log("From search")
       });
     }
   }
 
   render() {
 
+    // Display animation while data is loaded
     if(this.state.dataLoading) {
       return(
         <div className="spinner">

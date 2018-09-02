@@ -265,8 +265,8 @@ body, .app {
   content: ',';
 }
 
-.category-option:disabled,.category-option:checked{
-  background-color: rgba(6,125,50,1);
+.category-option:disabled,.category-option:checked {
+  background-color: rgba(40,201,197,1);
   color: #fff;
   font-weight: bold;
 }
