@@ -36,10 +36,6 @@ class BooksApp extends Component {
     ];
   }
 
-  componentDidMount() {
-    this.getMyReads();
-  }
-
   /**
   * @description API Connection to get the list of books that have a shelf assigned
   * @return BookList state updated
@@ -62,7 +58,7 @@ class BooksApp extends Component {
   */
   changeCategory = (bookShelf, bookData) => {
     const index = this.state.bookList.findIndex(book => book.id === bookData.id);
-    const newBookList = this.state.bookList.slice()
+    const newBookList = this.state.bookList.slice();
 
     if(index > 0) {
       newBookList[index].shelf = bookShelf;
@@ -80,6 +76,10 @@ class BooksApp extends Component {
         })
       });
     }
+  }
+
+  componentDidMount() {
+    this.getMyReads();
   }
 
   render() {
