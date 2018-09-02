@@ -2,18 +2,19 @@ import React, { Component } from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 import { Route } from 'react-router-dom'
+
 import BookCollection from './BookCollection'
 import BookSearch from './BookSearch'
 
 class BooksApp extends Component {
 
-  state = {
-    dataLoading: false,
-    bookList: []
-  };
-
   constructor(props){
     super(props);
+
+    this.state = {
+      dataLoading: false,
+      bookList: []
+    };
 
     this.bookShelves = [
       {
@@ -83,30 +84,16 @@ class BooksApp extends Component {
 
   render() {
 
-    // Display animation while data is loaded
-    if(this.state.dataLoading) {
-      return(
-        <div className="spinner">
-          <div className="rect1"></div>
-          <div className="rect2"></div>
-          <div className="rect3"></div>
-          <div className="rect4"></div>
-          <div className="rect5"></div>
-        </div>
-      )
-    }
-    else {
-      return (
-        <div>
-          <Route exact path="/" render={({ history }) => (
-            <BookCollection bookShelves={this.bookShelves} bookList={this.state.bookList} dataLoading={this.state.dataLoading} changeCategory={this.changeCategory} />
-          )} />
-          <Route path="/search" render={({ history }) => (
-            <BookSearch changeCategory={this.changeCategory} />
-          )} />
-        </div>
-      )
-    }
+    return (
+      <div>
+        <Route exact path="/" render={({ history }) => (
+          <BookCollection bookShelves={this.bookShelves} bookList={this.state.bookList} dataLoading={this.state.dataLoading} changeCategory={this.changeCategory} />
+        )} />
+        <Route path="/search" render={({ history }) => (
+          <BookSearch changeCategory={this.changeCategory} />
+        )} />
+      </div>
+    )
   }
 }
 

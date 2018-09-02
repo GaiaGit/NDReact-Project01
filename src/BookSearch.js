@@ -77,6 +77,7 @@ class BookSearch extends Component {
         <div className="search-books-results">
         <ol className="books-grid">
           {
+            // Ensure valid search results
             ( this.state.query.trim() &&
               typeof this.state.bookResults !== 'undefined' &&
               this.state.dataLoading === false &&
