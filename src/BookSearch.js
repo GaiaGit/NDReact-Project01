@@ -78,13 +78,16 @@ class BookSearch extends Component {
         <ol className="books-grid">
           {
             // Ensure valid search results
+            // Checking up 'knowledge.udacity.com' was necessary to get
+            // support to solve a problem with 'unhandled rejection error'
+            // and some issues with the response terms
             ( this.state.query.trim() &&
               typeof this.state.bookResults !== 'undefined' &&
               this.state.dataLoading === false &&
               this.state.bookResults !== [] &&
               this.state.bookResults.length > 0 &&
-              this.state.bookResults !== "empty query" && !
-              this.state.bookResults.error)
+              this.state.bookResults !== "empty query" &&
+              !this.state.bookResults.error)
             ?
               this.state.bookResults.map(book => {
                 return (
