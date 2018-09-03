@@ -78,19 +78,26 @@ class BooksApp extends Component {
     }
   }
 
+  checkShelf(bookId) {
+    const index = this.state.bookList.findIndex(book => book.id === bookId);
+    return (index > 0) ? this.state.bookList[index].shelf : 'none';
+  }
+
   componentDidMount() {
     this.getMyReads();
   }
 
   render() {
 
+    const { bookList, dataLoading} = this.state;
+
     return (
       <div>
         <Route exact path="/" render={({ history }) => (
-          <BookCollection bookShelves={this.bookShelves} bookList={this.state.bookList} dataLoading={this.state.dataLoading} changeCategory={this.changeCategory} />
+          <BookCollection bookShelves={ this.bookShelves } bookList={ bookList } dataLoading={ dataLoading } changeCategory={ this.changeCategory } />
         )} />
         <Route path="/search" render={({ history }) => (
-          <BookSearch changeCategory={this.changeCategory} />
+          <BookSearch changeCategory={ this.changeCategory } checkShelf={ this.checkShelf.bind(this) } />
         )} />
       </div>
     )

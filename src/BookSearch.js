@@ -35,24 +35,33 @@ class BookSearch extends Component {
   * @return Update bookResults state if valid data returned by API
   */
   searchQuery(query) {
-    const term = query.trim();
     this.setState({
       query: query,
       dataLoading: true
     });
-    if(term !== "" && term.length > 0) {
-      BooksAPI.search(query.trim(), 10).then( results => {
 
-        if(results.error && results.error === "empty query") {
-          this.setState({dataLoading: false, error: true, bookResults: []});
-        }
-        else {
-          if(this.state.bookResults !== results && results !== []) {
-            results.map(res => res.shelf = "none");
-            this.setState({bookResults: results, error: false, dataLoading: false});
+    if(query !== "") {
+      // New variable with query.trim is necessary in API REQUESTS
+      // to solve problems with extra white spaces (ie "  Biography " = No results)
+      // Allows multiple words (ie "Artificial Intelligence")
+      const cleanQuery = query.trim();
+      if(cleanQuery === ""){
+        this.setState({dataLoading: false});
+      }
+      else {
+        BooksAPI.search(cleanQuery, 20).then( results => {
+
+          if(results.error && results.error === "empty query") {
+            this.setState({dataLoading: false, error: true, bookResults: []});
           }
-        }
-      });
+          else {
+            if(this.state.bookResults !== results && results !== []) {
+              results.map(res => res.shelf = this.props.checkShelf(res.id));
+              this.setState({bookResults: results, error: false, dataLoading: false});
+            }
+          }
+        });
+      }
     }
   }
 

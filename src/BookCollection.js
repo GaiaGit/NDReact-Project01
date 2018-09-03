@@ -7,7 +7,7 @@ function Dashboard(props) {
 
   const { bookList, bookShelves, dataLoading, changeCategory } = props;
 
-  // Display animation while data is loaded
+  // Display animation while data is loading
   if(dataLoading) {
     return(
       <div className="list-books">
